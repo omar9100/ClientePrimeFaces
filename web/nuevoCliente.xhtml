@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template/newTemplate.xhtml">
+
+            <ui:define name="content">
+                <h2>Formulario para agregar nuevos clientes</h2>
+                <h:form>
+                    <h:panelGrid columns="2">
+                        Nombre: <h:inputText/>
+                        Apellidos: <h:inputText/>
+                        Ciudad: <h:inputText/>
+                        
+                        <h:outputLabel value="Estado"/>
+                        <h:selectOneMenu value="#{clienteController.cliente.estado}">
+                            <f:selectItem itemLabel="Zacatecas" itemValue="1"/>
+                            <f:selectItem itemLabel="Veracruz" itemValue="2"/>
+                            <f:selectItem itemLabel="Guadalajara" itemValue="3"/>
+                            
+                            <f:ajax event="change" listener="#{clienteController.cargarMunicipios(event)}"
+                                    render="cboMunicipio" execute="@this"/>
+                        </h:selectOneMenu>
+                        
+                        <h:outputLabel value="Municipio"/>
+                             
+                            <h:selectOneMenu id="cboMunicipio" value="#{clienteController.cliente.municipio}">
+                                <f:selectItems value="#{clienteController.lstMunicipios}"/>
+                            </h:selectOneMenu>
+                            
+                       
+                        
+                        <h:commandButton value="Enviar"/>
+                    </h:panelGrid>
+                    
+                    <div style="overflow: auto; width:350px; height: 100px; ">
+                    <h:dataTable value="#{clienteController.listCliente}" var="cliente">
+                        <h:column>
+                            <f:facet name="header">
+                                Nombre
+                            </f:facet>
+                            #{cliente.nombre}
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                Apellido
+                            </f:facet>
+                            #{cliente.apellido}
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                Ciudad
+                            </f:facet>
+                            #{cliente.estado}
+                        </h:column>
+                    </h:dataTable>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
